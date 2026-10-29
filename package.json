@@ -12,7 +12,9 @@
   "type": "commonjs",
   "dependencies": {
     "ejs": "^7.0.2",
+    "ejs-mate": "^4.0.0",
     "express": "^5.3.0",
+    "mate": "^0.21.0",
     "method-override": "^3.0.0",
     "mongoose": "^9.11.4"
   }
