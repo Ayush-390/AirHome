@@ -67,7 +67,17 @@ app.get("/listings/:id/edit", async (req, res) => {
 //Update Route
 app.put("/listings/:id", async (req, res) => {
   let { id } = req.params;
-  await Listing.findByIdAndUpdate(id, { ...req.body.listing });
+  const updates = { ...req.body.listing };
+  const image = updates.image;
+  delete updates.image;
+
+  if (typeof image === "string" && image.trim()) {
+    updates["image.url"] = image.trim();
+  } else if (image && typeof image.url === "string" && image.url.trim()) {
+    updates["image.url"] = image.url.trim();
+  }
+
+  await Listing.findByIdAndUpdate(id, { $set: updates }, { runValidators: true });
   res.redirect(`/listings/${id}`);
 });
 
