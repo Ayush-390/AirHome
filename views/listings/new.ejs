@@ -6,7 +6,7 @@
 
      <div class="new-listing-form"> 
     <h3>Create a New Listing</h3>
-   <form method="POST" action="/listings">
+   <form method="POST" action="/listings" novalidate class="needs-validation">
     <div class="mb-3"></div>
 
   <div class="mb-3">
@@ -16,6 +16,7 @@
       placeholder="enter title"
       type="text"
       class="form-control"
+      required
     />
   </div>
  
@@ -25,6 +26,7 @@
       <textarea
         name="listing[description]"
         class="form-control"
+        required
       ></textarea>
     </div>
 
@@ -46,6 +48,7 @@
       placeholder="enter price"
       type="number"
       class="form-control"
+      required
     />
   </div>
 
@@ -56,13 +59,17 @@
       placeholder="enter country"
       type="text"
       class="form-control"
+      required
     />
   </div>
 </div>
 
   <div class="mb-3">
     <label for="location" class="form-label">Location</label>
-    <input name="listing[location]" placeholder="enter location" type="text" class="form-control" />
+    <input name="listing[location]" placeholder="enter location" type="text" 
+    class="form-control" 
+    required
+    />
   </div>
 
       
