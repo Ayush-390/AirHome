@@ -118,6 +118,10 @@ body {
 /* show page */
 .show-img {
   height: 30vh;
+  max-height: 18rem;
+}
+.show-card {
+  max-width: 36rem;
 }
 .btns{
   display: flex;
