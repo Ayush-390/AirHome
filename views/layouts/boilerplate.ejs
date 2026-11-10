@@ -14,8 +14,9 @@
 </head>
 <body>
     <%- include("../includes/navbar.ejs") %>
-    <div class="container"><%- body %></div> <!-- This is where individual page content gets injected -->
-
+    <div class="container"><%-  include("../includes/flash.ejs")  %> 
+        <%- body %>  <!-- This is where individual page content gets injected -->
+    </div>
     
     <%- include("../includes/footer.ejs") %>
 

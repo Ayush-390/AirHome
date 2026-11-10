@@ -10,6 +10,7 @@ const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema, reviewSchema } = require("./schema.js");
 const Review = require("./models/review.js");
 const session = require("express-session");
+const flash = require("connect-flash");
 
 const listings = require("./routes/listing.js");
 const reviews = require("./routes/review.js");
@@ -53,23 +54,30 @@ const sessionOptions = {
   secret: "mysupersecretcode",
   resave: false,
   saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 7 * 24 * 60 * 60 * 1000,
+    maxAge: 7 * 24 * 60 * 60 * 1000,
+    httpOnly: true,
+  },
 };
 
+
+
+
 app.use(session(sessionOptions));
+app.use(flash());
 
-
-
-
-
-
-
-
+app.use((req, res, next) => {
+  res.locals.success = req.flash("success");
+  console.log(res.locals.success);
+  res.locals.error = req.flash("error");
+  next();
+});
 
 
 app.get("/", (req, res) => {
   res.send("Hi, I am root");
 });
-
 
 
 app.use("/listings", listings);
