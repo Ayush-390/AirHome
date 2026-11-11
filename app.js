@@ -68,11 +68,11 @@ const sessionOptions = {
 
 
 
-app.use(session(sessionOptions));
+app.use(session(sessionOptions)); //Enables server-side session
 app.use(flash());
 
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session()); //Connects Passport to active Express session so users stay logged
 passport.use(new LocalStrategy(User.authenticate()));
 
 passport.serializeUser(User.serializeUser());
@@ -81,6 +81,7 @@ passport.deserializeUser(User.deserializeUser());
 app.use((req, res, next) => {
   res.locals.success = req.flash("success");
   res.locals.error = req.flash("error");
+  res.locals.currUser = req.user; //created variable 
   next();
 });
 
