@@ -6,7 +6,7 @@ const {  reviewSchema } = require("../schema.js");
 const Review = require("../models/review.js");
 const Listing = require("../models/listing.js");
 
-
+//FOR HOTEL REVIEWS
 
 // Validation middleware for reviews (lines 48-56)
 const validateReview = (req, res, next) => {
