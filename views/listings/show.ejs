@@ -12,6 +12,7 @@
     />
     <div class="card-body">
       <p class="card-text">
+        <i><%= listing.owner.username %></i>
         <%= listing.description %> <br />
         &#8377; <%= listing.price != null ? listing.price.toLocaleString("en-IN") : "Price not set" %> <br />
         <%= listing.location %> <br />
