@@ -12,7 +12,7 @@
     />
     <div class="card-body">
       <p class="card-text">
-        <b><%= listing.owner.username %></b> <br>
+        <b>Owned by:   <%=   listing.owner.username %></b> <br>
         <%= listing.description %> <br />
         &#8377; <%= listing.price != null ? listing.price.toLocaleString("en-IN") : "Price not set" %> <br />
         <%= listing.location %> <br />
@@ -22,8 +22,8 @@
   </div>
    <br />
 
-  <% if (currUser && currUser._id.equals(listing.owner)) { %>
-  <div class="btnsext">
+
+   <div class="btnsext">
     <a 
       href="/listings/<%= listing._id %>/edit"
       class="btn btn-dark col-1 offset-3 edit-btn"
@@ -33,7 +33,8 @@
       <button class="btn btn-dark offset-5">Delete</button>
     </form>
   </div>
-<% } %> 
+   
+
   
 
   <!-- Review Form Section -->

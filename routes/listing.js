@@ -4,7 +4,7 @@ const wrapAsync = require("../utils/wrapAsync.js");
 const ExpressError = require("../utils/ExpressError.js");
 const { listingSchema } = require("../schema.js");
 const Listing = require("../models/listing.js");
-const { isLoggedIn } = require("../middleware.js");
+const { isLoggedIn, isOwner } = require("../middleware.js");
 
 
 
@@ -70,6 +70,7 @@ router.post(
 router.get(
   "/:id/edit",
   isLoggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const listing = await Listing.findById(id);
@@ -81,10 +82,13 @@ router.get(
   })
 );
 
+
+
 // Update Route
 router.put(
   "/:id",
   isLoggedIn,
+  isOwner,
   validateListing,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
@@ -96,8 +100,7 @@ router.put(
     if (image) {
       updates["image.url"] = (image.url || "").trim() || Listing.DEFAULT_IMAGE;
     }
-
-    const updated = await Listing.findByIdAndUpdate(
+     const updated = await Listing.findByIdAndUpdate(
       id,
       { $set: updates },
       { runValidators: true }
@@ -114,6 +117,7 @@ router.put(
 router.delete(
   "/:id",
   isLoggedIn,
+  isOwner,
   wrapAsync(async (req, res) => {
     const { id } = req.params;
     const deletedListing = await Listing.findByIdAndDelete(id);

@@ -43,16 +43,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 
-// Validation middleware for reviews (lines 48-56)
-const validateReview = (req, res, next) => {
-    let { error } = reviewSchema.validate(req.body);
-    if (error) {
-        let errMsg = error.details.map((el) => el.message).join(",");
-        throw new ExpressError(400, errMsg);
-    } else {
-        next();
-    }
-};
+
 
 const sessionOptions = {
   secret: "mysupersecretcode",
