@@ -22,7 +22,7 @@
   </div>
    <br />
 
-
+<% if(currUser && listing.owner._id.equals(currUser._id)) { %>
    <div class="btnsext">
     <a 
       href="/listings/<%= listing._id %>/edit"
@@ -33,10 +33,10 @@
       <button class="btn btn-dark offset-5">Delete</button>
     </form>
   </div>
-   
+ <% } %>    
 
   
-
+<% if(currUser) {%>
   <!-- Review Form Section -->
   <div class="col-8 offset-3 mb-3">
     <hr />
@@ -66,6 +66,8 @@
       </div>
       <button class="btn btn-outline-dark">Submit</button>
     </form>
+<% } %>    
+
 
    <hr>
     
