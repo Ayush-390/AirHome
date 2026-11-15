@@ -76,7 +76,8 @@
   <% for(let review of listing.reviews) { %>
     <div class="card col-5 ms-3 mb-3">
       <div class="card-body">
-        <h5 class="card-title">Jane Doe</h5>
+        
+        <h5 class="card-title">@<%= review.author.username %></h5>
         <p class="card-text"><%= review.comment %></p>
         <p class="card-text"><%= review.rating %> stars</p>
         

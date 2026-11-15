@@ -5,7 +5,7 @@ const ExpressError = require("../utils/ExpressError.js");
 const {  reviewSchema } = require("../schema.js");
 const Review = require("../models/review.js");
 const Listing = require("../models/listing.js");
-const {  isLoggedIn } = require("../middleware.js");
+const {  isLoggedIn, isReviewAuthor } = require("../middleware.js");
 
 //FOR HOTEL REVIEWS
 
@@ -31,7 +31,8 @@ router.post("/",
   console.log(req.params.id);
   let listing = await Listing.findById(req.params.id);
   let newReview = new Review(req.body.review);
-  console.log(newReview);
+  newReview.author = req.user._id; // Save which user wrote this review
+  // console.log(newReview);
   listing.reviews.push(newReview);
   
   await newReview.save();
@@ -46,6 +47,7 @@ router.post("/",
 // Delete Review Route
 router.delete(
   "/:reviewId",
+  isReviewAuthor,
   wrapAsync(async (req, res) => {
     let { id, reviewId } = req.params;
 
