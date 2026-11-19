@@ -8,6 +8,10 @@ const { isLoggedIn, isOwner } = require("../middleware.js");
 
 const listingController = require("../controllers/listings.js");
 
+const multer = require("multer");
+const { storage } = require("../cloudConfig.js");
+const upload = multer({ storage });
+
 
 // Checks the form data with Joi. Used by Create and Update routes.
 const validateListing = (req, res, next) => {
@@ -19,16 +23,20 @@ const validateListing = (req, res, next) => {
   next();
 };
 
+
 router
 .route("/")
 .get(wrapAsync(listingController.index))
 .post(
   isLoggedIn,
+  
+  upload.single('listing[image]'),
   validateListing,
   wrapAsync(listingController.createListing)
-)
+);
 
-// New Route (must stay ABOVE the Show Route)
+
+
 router.get("/new", isLoggedIn, listingController.renderNewForm);
 
 
