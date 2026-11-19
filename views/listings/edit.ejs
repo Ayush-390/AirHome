@@ -9,6 +9,7 @@
       action="/listings/<%= listing._id %>?_method=PUT"
       novalidate
       class="needs-validation"
+      enctype="multipart/form-data"
     >
       <div class="mb-3">
         <label for="title" class="form-label">Title</label>
@@ -36,12 +37,11 @@
       </div>
 
       <div class="mb-3">
-        <label for="image" class="form-label">Image Link</label>
+        <label for="image" class="form-label"> Upload new Image</label>
         <input
           id="image"
-          name="listing[image][url]"
-          value="<%= listing.image && listing.image.url ? listing.image.url : '' %>"
-          type="text"
+          name="listing[image]"
+          type="file"
           class="form-control"
         />
       </div>

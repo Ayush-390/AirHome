@@ -33,7 +33,6 @@ module.exports.showListing = async (req, res) => {
       let url = req.file.path;
       let filename = req.file.filename;
       
-
       const newListing = new Listing(req.body.listing);
       newListing.owner = req.user._id;
       newListing.image = {url, filename};
@@ -52,29 +51,41 @@ module.exports.showListing = async (req, res) => {
         res.render("listings/edit.ejs", { listing });
       }
 
+      
+module.exports.updateListing = async (req, res) => {
+  const { id } = req.params;
+  const updates = { ...req.body.listing };
 
+  // Avoid overwriting nested image object directly with raw form input
+  const formImage = updates.image;
+  delete updates.image;
 
-    module.exports.updateListing = async (req, res) => {
-    const { id } = req.params;
-    const updates = { ...req.body.listing };
-    const image = updates.image;
-    delete updates.image;
+  if (req.file) {
+    // New file uploaded via Multer / Cloudinary
+    updates.image = {
+      url: req.file.path,
+      filename: req.file.filename,
+    };
+  } else if (formImage && typeof formImage === "object" && "url" in formImage) {
+    // Fallback if an edit form still sends listing[image][url] without a new file
+    updates["image.url"] = (formImage.url || "").trim() || Listing.DEFAULT_IMAGE;
+  }
 
-    // The form sends listing[image][url]. Empty box -> default image.
-    if (image) {
-      updates["image.url"] = (image.url || "").trim() || Listing.DEFAULT_IMAGE;
-    }
-     const updated = await Listing.findByIdAndUpdate(
-      id,
-      { $set: updates },
-      { runValidators: true }
-    );
-    if (!updated) {
-      throw new ExpressError(404, "Listing not found");
-    }
-    req.flash("success", "New Listing Updated!");
-    res.redirect(`/listings/${id}`);
-  }  
+  const updated = await Listing.findByIdAndUpdate(
+    id,
+    { $set: updates },
+    { runValidators: true }
+  );
+
+  if (!updated) {
+    throw new ExpressError(404, "Listing not found");
+  }
+
+  req.flash("success", "New Listing Updated!");
+  res.redirect(`/listings/${id}`);
+};
+
+  
 
 
 
