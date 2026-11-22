@@ -1,15 +1,45 @@
 <% layout("layouts/boilerplate") -%>
+<!-- <h3 class="mt-3">All Listings</h3> -->
+
+<style>
+  #filters {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0.75rem 0;
+  }
+
+  .filter {
+    text-align: center;
+    opacity: 0.7;
+    transition: opacity 0.2s ease;
+    cursor: pointer;
+  }
+
+  .filter:hover {
+    opacity: 1;
+  }
+
+  .filter p {
+    font-size: 0.8rem;
+    margin: 0.25rem 0 0;
+  }
+</style>
+
+<div id="filters">
+  <div class="filter">
+    <div><i class="fa-solid fa-fire"></i></div>
+    <p>Trending</p>
+  </div>
+  <div class="filter">
+    <div><i class="fa-solid fa-bed"></i></div>
+    <p>Rooms</p>
+  </div>
+</div>
 
 
-<h3 class="mt-3">All Listings</h3>
-
-<% if (allListings.length === 0) { %>
-  <p class="mt-3">
-    No listings yet. <a href="/listings/new">Add the first one!</a>
-  </p>
-<% } %>
-
-<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1">
+<div class="row row-cols-lg-3 row-cols-md-2 row-cols-sm-1 mt-3">
   <% for (let listing of allListings) { %>
     <% const imageUrl = listing.image && listing.image.url; %>
 
