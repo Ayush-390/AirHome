@@ -19,7 +19,13 @@ body {
 }
 .fa-compass{
     color: #fe424d;
-    font-size: 2rem;
+}
+
+
+/* Make all Font Awesome icons larger site-wide. */
+i[class^="fa-"],
+i[class*=" fa-"] {
+  font-size: 1.5em;
 }
 .nav-link{
     color: #222222  !important;
