@@ -14,7 +14,10 @@ const wrapAsync = require("./utils/wrapAsync.js");
 const ExpressError = require("./utils/ExpressError.js");
 const { listingSchema, reviewSchema } = require("./schema.js");
 const Review = require("./models/review.js");
+
 const session = require("express-session");
+const MongoStore = require("connect-mongo");
+
 const flash = require("connect-flash");
 const passport = require("passport");
 const LocalStrategy = require("passport-local");
@@ -49,10 +52,21 @@ app.use(express.static(path.join(__dirname, "public")));
 
 
 
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  crypto: {
+    secret: process.env.SECRET,
+  },
+  touchAfter: 24 * 3600,
+});
 
+store.on("error", (err) => {
+  console.log("ERROR in MONGO SESSION STORE", err);
+});
 
 const sessionOptions = {
-  secret: "mysupersecretcode",
+  store,
+  secret: process.env.SECRET,
   resave: false,
   saveUninitialized: true,
   cookie: {
@@ -63,9 +77,7 @@ const sessionOptions = {
 };
 
 
-
-
-app.use(session(sessionOptions)); //Enables server-side session
+app.use(session(sessionOptions)); // Enables server-side session
 app.use(flash());
 
 app.use(passport.initialize());
